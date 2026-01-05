@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Evergreen Flip Clock</title>
+  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+    
+    body { 
+      background: transparent; 
+      margin: 0; 
+      padding: 0; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
+      height: 100vh; 
+      overflow: hidden;
+      font-family: 'Inter', sans-serif;
+    }
+
+    .clock-container {
+      display: flex;
+      gap: 12px;
+    }
+
+    .flip-card {
+      background-color: #76A896; /* Matching the green from your photo */
+      width: 130px;
+      height: 180px;
+      border-radius: 12px;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+
+    /* The horizontal line in the middle */
+    .flip-card::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.15);
+      z-index: 5;
+    }
+
+    .digit {
+      color: white;
+      font-size: 100px;
+      font-weight: 700;
+      letter-spacing: -4px;
+      z-index: 2;
+    }
+
+    .label-am-pm {
+      position: absolute;
+      bottom: 12px;
+      left: 12px;
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      opacity: 0.8;
+      z-index: 10;
+    }
+
+    .label-day {
+      position: absolute;
+      bottom: 12px;
+      right: 12px;
+      color: white;
+      font-size: 14px;
+      font-weight: 800;
+      opacity: 0.8;
+      z-index: 10;
+    }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+  <script type="text/babel">
+    const { useState, useEffect } = React;
+
+    function FlipClock() {
+      const [now, setNow] = useState(new Date());
+
+      useEffect(() => {
+        const timer = setInterval(() => setNow(new Date()), 1000);
+        return () => clearInterval(timer);
+      }, []);
+
+      const hours = now.getHours();
+      const displayHours = String(hours % 12 || 12).padStart(2, '0');
+      const displayMinutes = String(now.getMinutes()).padStart(2, '0');
+      const ampm = hours >= 12 ? 'PM' : 'AM';
+      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now).toUpperCase();
+
+      return (
+        <div className="clock-container">
+          {/* Hour Card */}
+          <div className="flip-card">
+            <span className="digit">{displayHours}</span>
+            <span className="label-am-pm">{ampm}</span>
+          </div>
+
+          {/* Minute Card */}
+          <div className="flip-card">
+            <span className="digit">{displayMinutes}</span>
+            <span className="label-day">{dayName}</span>
+          </div>
+        </div>
+      );
+    }
+
+    ReactDOM.render(<FlipClock />, document.getElementById('root'));
+  </script>
+</body>
+</html>
