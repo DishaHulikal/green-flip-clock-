@@ -10,12 +10,12 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
     
-    /* FORCE THE ENTIRE PAGE TO BE THE CLOCK */
-    * { box-sizing: border-box; }
-    html, body { 
+    body { 
       background: transparent; 
-      margin: 0 !important; 
-      padding: 0 !important; 
+      margin: 0; 
+      display: flex; 
+      justify-content: center; 
+      align-items: center; 
       height: 100vh; 
       width: 100vw;
       overflow: hidden;
@@ -24,22 +24,25 @@
 
     .clock-container {
       display: flex;
-      gap: 4px; /* Tiny gap between cards */
-      width: 100vw;
-      height: 100vh;
+      gap: 6px; /* Tighter gap to match reference */
+      width: 98%;
+      height: 96%;
+      justify-content: center;
+      align-items: center;
     }
 
     .flip-card {
       background-color: #77AB98; 
       flex: 1;
-      height: 100vh; /* Fills vertical space completely */
-      border-radius: 8px; /* Tighter corners look better when full-bleed */
+      height: 100%;
+      border-radius: 12px;
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
+    /* Subtle middle line */
     .flip-card::after {
       content: "";
       position: absolute;
@@ -53,21 +56,23 @@
 
     .digit {
       color: white;
-      font-size: 28vh; /* Very large to fill the card */
+      /* Large, bold, and tight spacing like the original */
+      font-size: 38vh; 
       font-weight: 900;
-      letter-spacing: -6px;
+      letter-spacing: -12px; 
       line-height: 1;
       z-index: 2;
     }
 
     .label {
       position: absolute;
-      bottom: 10px;
+      bottom: 12px;
       color: white;
       font-size: 14px;
       font-weight: 900;
-      opacity: 0.95;
+      opacity: 0.9;
       z-index: 10;
+      text-transform: uppercase;
     }
 
     .left-label { left: 15px; }
@@ -91,7 +96,7 @@
       const displayHours = String(hours % 12 || 12).padStart(2, '0');
       const displayMinutes = String(now.getMinutes()).padStart(2, '0');
       const ampm = hours >= 12 ? 'PM' : 'AM';
-      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now).toUpperCase();
+      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now);
 
       return (
         <div className="clock-container">
