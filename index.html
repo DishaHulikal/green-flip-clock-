@@ -1,119 +1,118 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <title>Green Flip Clock</title>
-  <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
-  <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
-  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@900&display=swap');
-    
-    body { 
-      background: transparent; 
-      margin: 0; 
-      display: flex; 
-      justify-content: center; 
-      align-items: center; 
-      height: 100vh; 
-      width: 100vw;
-      overflow: hidden;
-    }
+<style>
+  :root {
+    --clock-green: #76a896;
+    --text-white: #ffffff;
+    --line-color: rgba(0, 0, 0, 0.15);
+  }
 
-    .clock-container {
-      display: flex;
-      gap: 8px;
-      width: 98%;
-      height: 96%;
-      justify-content: center;
-      align-items: center;
-    }
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-color: transparent;
+    font-family: "Arial Black", Gadget, sans-serif;
+  }
 
-    .flip-card {
-      background-color: #77AB98; 
-      flex: 1;
-      height: 100%;
-      border-radius: 12px;
-      position: relative;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
+  /* The Main Card Container */
+  .clock-card {
+    background-color: var(--clock-green);
+    width: 280px;
+    height: 180px;
+    border-radius: 12px;
+    padding: 15px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    overflow: hidden;
+  }
 
-    .flip-card::after {
-      content: "";
-      position: absolute;
-      top: 50%;
-      left: 0;
-      width: 100%;
-      height: 2px;
-      background: rgba(0, 0, 0, 0.1);
-      z-index: 1;
-    }
+  /* Horizontal split line across the middle */
+  .clock-card::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: var(--line-color);
+    z-index: 2;
+  }
 
-    .digit {
-      color: white;
-      /* Bebas Neue is narrow, so it won't overlap like the last one */
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 70vh; 
-      line-height: 1;
-      z-index: 2;
-      /* Pushes the numbers up slightly to leave room for the labels below */
-      transform: translateY(-4%);
-    }
+  /* Vertical split line between numbers */
+  .mid-divider {
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 1px;
+    height: 100%;
+    background-color: var(--line-color);
+    z-index: 1;
+  }
 
-    .label {
-      position: absolute;
-      bottom: 12px;
-      color: white;
-      font-family: 'Inter', sans-serif;
-      font-size: 14px;
-      font-weight: 900;
-      z-index: 10;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
+  /* Time Numbers Container */
+  .time-display {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    flex-grow: 1;
+    font-size: 100px;
+    color: var(--text-white);
+    letter-spacing: -2px;
+    z-index: 3;
+  }
 
-    .left-label { left: 15px; }
-    .right-label { right: 15px; }
-  </style>
-</head>
-<body>
-  <div id="root"></div>
-  <script type="text/babel">
-    const { useState, useEffect } = React;
+  .time-unit {
+    width: 50%;
+    text-align: center;
+  }
 
-    function FlipClock() {
-      const [now, setNow] = useState(new Date());
+  /* Footer Section for AM and Day */
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    color: var(--text-white);
+    font-size: 14px;
+    font-weight: 900;
+    z-index: 4;
+    padding: 0 5px;
+  }
+</style>
 
-      useEffect(() => {
-        const timer = setInterval(() => setNow(new Date()), 1000);
-        return () => clearInterval(timer);
-      }, []);
+<div class="clock-card">
+  <div class="mid-divider"></div>
+  
+  <div class="time-display">
+    <div class="time-unit" id="hour">09</div>
+    <div class="time-unit" id="min">38</div>
+  </div>
 
-      const hours = now.getHours();
-      const displayHours = String(hours % 12 || 12).padStart(2, '0');
-      const displayMinutes = String(now.getMinutes()).padStart(2, '0');
-      const ampm = hours >= 12 ? 'PM' : 'AM';
-      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now).toUpperCase();
+  <div class="footer">
+    <div id="ampm">AM</div>
+    <div id="day">FRIDAY</div>
+  </div>
+</div>
 
-      return (
-        <div className="clock-container">
-          <div className="flip-card">
-            <span className="digit">{displayHours}</span>
-            <span className="label left-label">{ampm}</span>
-          </div>
+<script>
+  function updateClock() {
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = String(now.getMinutes()).padStart(2, '0');
+    const ampm = hours >= 12 ? 'PM' : 'AM';
+    const dayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
-          <div className="flip-card">
-            <span className="digit">{displayMinutes}</span>
-            <span className="label right-label">{dayName}</span>
-          </div>
-        </div>
-      );
-    }
+    hours = hours % 12 || 12; // Convert 24h to 12h format
+    const hourStr = String(hours).padStart(2, '0');
 
-    ReactDOM.render(<FlipClock />, document.getElementById('root'));
-  </script>
-</body>
-</html>
+    document.getElementById('hour').textContent = hourStr;
+    document.getElementById('min').textContent = minutes;
+    document.getElementById('ampm').textContent = ampm;
+    document.getElementById('day').textContent = dayNames[now.getDay()];
+  }
+
+  setInterval(updateClock, 1000);
+  updateClock();
+</script>
