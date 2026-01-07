@@ -47,14 +47,14 @@
   }
 
   .number {
-    /* Reduced significantly to create space above AND below */
-    font-size: 95px; 
+    /* Reduced to 85px to ensure clear space above and below */
+    font-size: 85px; 
     color: var(--text-white);
     z-index: 1;
     line-height: 1;
-    transform: scaleY(1.3);
-    /* Positioned to leave room for top green space and bottom labels */
-    margin-top: -15px; 
+    transform: scaleY(1.35);
+    /* Centering it vertically within the upper 80% of the tile */
+    margin-top: -20px; 
     letter-spacing: -1px;
   }
 
@@ -75,13 +75,13 @@
 
 <div class="clock-container">
   <div class="tile">
-    <div class="number" id="hour">09</div>
+    <div class="number" id="hour">00</div>
     <div class="label am-label" id="ampm">AM</div>
   </div>
 
   <div class="tile">
-    <div class="number" id="min">38</div>
-    <div class="label day-label" id="day">FRIDAY</div>
+    <div class="number" id="min">00</div>
+    <div class="label day-label" id="day">DAY</div>
   </div>
 </div>
 
