@@ -8,7 +8,8 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+    /* Bebas Neue is the secret to those tall, thin numbers in your screenshot */
+    @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@900&display=swap');
     
     body { 
       background: transparent; 
@@ -19,61 +20,60 @@
       height: 100vh; 
       width: 100vw;
       overflow: hidden;
-      font-family: 'Inter', sans-serif;
     }
 
     .clock-container {
       display: flex;
-      gap: 8px;
-      width: 98%;
-      height: 96%;
-      justify-content: center;
-      align-items: center;
+      gap: 6px;
+      width: 100%;
+      height: 100%;
+      padding: 4px; /* Tiny buffer to prevent edge-cut */
     }
 
     .flip-card {
       background-color: #77AB98; 
       flex: 1;
       height: 100%;
-      border-radius: 12px;
+      border-radius: 14px;
       position: relative;
       display: flex;
-      flex-direction: column; /* Stacks items vertically */
       justify-content: center;
       align-items: center;
     }
 
+    /* The exact middle horizontal line */
     .flip-card::after {
       content: "";
       position: absolute;
       top: 50%;
       left: 0;
       width: 100%;
-      height: 2px;
-      background: rgba(0, 0, 0, 0.1);
-      z-index: 1;
+      height: 1.5px;
+      background: rgba(0, 0, 0, 0.12);
+      z-index: 5;
     }
 
     .digit {
       color: white;
-      /* Adjusted size so it doesn't hit the labels */
-      font-size: 32vh; 
-      font-weight: 900;
-      letter-spacing: -10px; 
+      font-family: 'Bebas Neue', sans-serif;
+      /* Massive height to fill the card vertically */
+      font-size: 75vh; 
       line-height: 1;
       z-index: 2;
-      padding-bottom: 20px; /* Pushes numbers up away from labels */
+      /* Nudge up slightly to stay centered with the tall font */
+      transform: translateY(-2%);
     }
 
     .label {
       position: absolute;
       bottom: 12px;
       color: white;
+      font-family: 'Inter', sans-serif;
       font-size: 14px;
       font-weight: 900;
       z-index: 10;
       text-transform: uppercase;
-      letter-spacing: 1px;
+      opacity: 0.95;
     }
 
     .left-label { left: 15px; }
@@ -97,7 +97,7 @@
       const displayHours = String(hours % 12 || 12).padStart(2, '0');
       const displayMinutes = String(now.getMinutes()).padStart(2, '0');
       const ampm = hours >= 12 ? 'PM' : 'AM';
-      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now);
+      const dayName = new Intl.DateTimeFormat('en-US', { weekday: 'long' }).format(now).toUpperCase();
 
       return (
         <div className="clock-container">
