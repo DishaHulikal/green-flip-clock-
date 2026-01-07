@@ -47,19 +47,20 @@
   }
 
   .number {
-    font-size: 115px; 
+    /* Reduced significantly to create space above AND below */
+    font-size: 95px; 
     color: var(--text-white);
     z-index: 1;
     line-height: 1;
-    transform: scaleY(1.25);
-    /* Removed the downward margin to lift it back to center */
-    margin-top: -12px; 
+    transform: scaleY(1.3);
+    /* Positioned to leave room for top green space and bottom labels */
+    margin-top: -15px; 
     letter-spacing: -1px;
   }
 
   .label {
     position: absolute;
-    bottom: 10px;
+    bottom: 12px;
     color: var(--text-white);
     font-size: 13px;
     font-weight: bold;
