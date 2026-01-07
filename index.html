@@ -1,98 +1,89 @@
 <style>
   :root {
-    --clock-green: #76a896;
+    --sage-green: #8ab0a2;
     --text-white: #ffffff;
-    --line-color: rgba(0, 0, 0, 0.15);
+    --fold: rgba(0, 0, 0, 0.08);
   }
 
   body {
     margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     height: 100vh;
     background-color: transparent;
-    font-family: "Arial Black", Gadget, sans-serif;
+    /* Impact is the closest standard font to your target image */
+    font-family: 'Impact', 'Arial Narrow Bold', sans-serif;
   }
 
-  /* The Main Card Container */
-  .clock-card {
-    background-color: var(--clock-green);
-    width: 280px;
-    height: 180px;
+  .clock-container {
+    display: flex;
+    gap: 6px; 
+    width: 320px;
+    height: 190px;
+  }
+
+  .tile {
+    background-color: var(--sage-green);
+    flex: 1;
+    height: 100%;
     border-radius: 12px;
-    padding: 15px;
+    position: relative;
     display: flex;
     flex-direction: column;
-    position: relative;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    justify-content: center;
+    align-items: center;
     overflow: hidden;
   }
 
-  /* Horizontal split line across the middle */
-  .clock-card::after {
+  /* Horizontal split line inside tiles */
+  .tile::after {
     content: "";
     position: absolute;
     top: 50%;
     left: 0;
     width: 100%;
     height: 1px;
-    background-color: var(--line-color);
+    background-color: var(--fold);
     z-index: 2;
   }
 
-  /* Vertical split line between numbers */
-  .mid-divider {
-    position: absolute;
-    left: 50%;
-    top: 0;
-    width: 1px;
-    height: 100%;
-    background-color: var(--line-color);
+  .number {
+    font-size: 140px;
+    color: var(--text-white);
     z-index: 1;
-  }
-
-  /* Time Numbers Container */
-  .time-display {
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    flex-grow: 1;
-    font-size: 100px;
-    color: var(--text-white);
+    line-height: 0.8;
+    /* Vertically stretched but lifted up to clear the labels */
+    transform: scaleY(1.25);
+    margin-top: -25px; 
     letter-spacing: -2px;
-    z-index: 3;
   }
 
-  .time-unit {
-    width: 50%;
-    text-align: center;
-  }
-
-  /* Footer Section for AM and Day */
-  .footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
+  .label {
+    position: absolute;
+    bottom: 8px;
     color: var(--text-white);
-    font-size: 14px;
-    font-weight: 900;
-    z-index: 4;
-    padding: 0 5px;
+    font-size: 13px;
+    font-weight: bold;
+    text-transform: uppercase;
+    z-index: 3;
+    font-family: Arial, Helvetica, sans-serif;
   }
+
+  .am-label { left: 12px; }
+  .day-label { right: 12px; }
 </style>
 
-<div class="clock-card">
-  <div class="mid-divider"></div>
-  
-  <div class="time-display">
-    <div class="time-unit" id="hour">09</div>
-    <div class="time-unit" id="min">38</div>
+<div class="clock-container">
+  <div class="tile">
+    <div class="number" id="hour">09</div>
+    <div class="label am-label" id="ampm">AM</div>
   </div>
 
-  <div class="footer">
-    <div id="ampm">AM</div>
-    <div id="day">FRIDAY</div>
+  <div class="tile">
+    <div class="number" id="min">38</div>
+    <div class="label day-label" id="day">FRIDAY</div>
   </div>
 </div>
 
@@ -104,7 +95,7 @@
     const ampm = hours >= 12 ? 'PM' : 'AM';
     const dayNames = ["SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY"];
 
-    hours = hours % 12 || 12; // Convert 24h to 12h format
+    hours = hours % 12 || 12;
     const hourStr = String(hours).padStart(2, '0');
 
     document.getElementById('hour').textContent = hourStr;
