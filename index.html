@@ -8,7 +8,6 @@
   <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <style>
-    /* Bebas Neue is the secret to those tall, thin numbers in your screenshot */
     @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@900&display=swap');
     
     body { 
@@ -24,44 +23,44 @@
 
     .clock-container {
       display: flex;
-      gap: 6px;
-      width: 100%;
-      height: 100%;
-      padding: 4px; /* Tiny buffer to prevent edge-cut */
+      gap: 8px;
+      width: 98%;
+      height: 96%;
+      justify-content: center;
+      align-items: center;
     }
 
     .flip-card {
       background-color: #77AB98; 
       flex: 1;
       height: 100%;
-      border-radius: 14px;
+      border-radius: 12px;
       position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
     }
 
-    /* The exact middle horizontal line */
     .flip-card::after {
       content: "";
       position: absolute;
       top: 50%;
       left: 0;
       width: 100%;
-      height: 1.5px;
-      background: rgba(0, 0, 0, 0.12);
-      z-index: 5;
+      height: 2px;
+      background: rgba(0, 0, 0, 0.1);
+      z-index: 1;
     }
 
     .digit {
       color: white;
+      /* Bebas Neue is narrow, so it won't overlap like the last one */
       font-family: 'Bebas Neue', sans-serif;
-      /* Massive height to fill the card vertically */
-      font-size: 75vh; 
+      font-size: 70vh; 
       line-height: 1;
       z-index: 2;
-      /* Nudge up slightly to stay centered with the tall font */
-      transform: translateY(-2%);
+      /* Pushes the numbers up slightly to leave room for the labels below */
+      transform: translateY(-4%);
     }
 
     .label {
@@ -73,7 +72,7 @@
       font-weight: 900;
       z-index: 10;
       text-transform: uppercase;
-      opacity: 0.95;
+      letter-spacing: 0.5px;
     }
 
     .left-label { left: 15px; }
